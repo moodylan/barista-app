@@ -1,11 +1,7 @@
-import { useState } from "react";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import BaristaForm from "./Components/BaristaForm";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
       <div className="title-container">
