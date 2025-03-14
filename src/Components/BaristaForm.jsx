@@ -41,32 +41,31 @@ const BaristaForm = () => {
   };
 
   const onCheckAnswer = () => {
-    // check against trueRecipe from drinksJson
-
-    // inputs.temperature is also valid (dot notation)
-    if (trueRecipe.temp != inputs["temperature"]) {
-      setCheckedTemperature("wrong");
-    } else {
-      setCheckedTemperature("correct");
+    if (!ingredients["temperature"].includes(inputs["temperature"])) {
+      alert("For temperature, that isn't a valid option!");
+      return;
+    }
+    if (!ingredients["syrup"].includes(inputs["syrup"])) {
+      alert("For syrup, that isn't a valid option!");
+      return;
+    }
+    if (!ingredients["milk"].includes(inputs["milk"])) {
+      alert("For milk, that isn't a valid option!");
+      return;
+    }
+    if (!ingredients["blended"].includes(inputs["blended"])) {
+      alert("For blended, that isn't a valid option!");
+      return;
     }
 
-    if (trueRecipe.milk != inputs["milk"]) {
-      setCheckedMilk("wrong");
-    } else {
-      setCheckedMilk("correct");
-    }
-
-    if (trueRecipe.syrup != inputs["syrup"]) {
-      setCheckedSyrup("wrong");
-    } else {
-      setCheckedSyrup("correct");
-    }
-
-    if (trueRecipe.blended != inputs["blended"]) {
-      setCheckedBlended("wrong");
-    } else {
-      setCheckedBlended("correct");
-    }
+    setCheckedTemperature(
+      trueRecipe.temp === inputs["temperature"] ? "correct" : "wrong"
+    );
+    setCheckedSyrup(trueRecipe.syrup === inputs["syrup"] ? "correct" : "wrong");
+    setCheckedMilk(trueRecipe.milk === inputs["milk"] ? "correct" : "wrong");
+    setCheckedBlended(
+      trueRecipe.blended === inputs["blended"] ? "correct" : "wrong"
+    );
   };
 
   const getNextDrink = () => {
@@ -88,7 +87,7 @@ const BaristaForm = () => {
           🔄
         </button>
 
-        {/* Note: Since there is no logic to make a drink pop up by default, you will always have to click New Drink to have a drink be displayed and start the quiz. Explore ways to have a drink by default if you would like. */}
+        {/* NOTE: there is no logic to make a drink pop up by default, you will always have to click New Drink to have a drink be displayed and start the quiz. Explore ways to have a drink by default if you would like. */}
       </div>
       <form className="container">
         <div className="mini-container">
@@ -105,7 +104,7 @@ const BaristaForm = () => {
             }
             label="temperature"
             choices={ingredients["temperature"]}
-            checked={inputs["temperature"]}
+            currentVal={inputs["temperature"]}
           />
         </div>
         <div className="mini-container">
@@ -122,7 +121,7 @@ const BaristaForm = () => {
             }
             label="syrup"
             choices={ingredients["syrup"]}
-            checked={inputs["syrup"]}
+            currentVal={inputs["syrup"]}
           />
         </div>
         <div className="mini-container">
@@ -139,7 +138,7 @@ const BaristaForm = () => {
             }
             label="milk"
             choices={ingredients["milk"]}
-            checked={inputs["milk"]}
+            currentVal={inputs["milk"]}
           />
         </div>
         <div className="mini-container">
@@ -156,21 +155,18 @@ const BaristaForm = () => {
             }
             label="blended"
             choices={ingredients["blended"]}
-            checked={inputs["blended"]}
+            currentVal={inputs["blended"]}
           />
         </div>
       </form>
 
-      <button type="submit" className="button submit" onClick={onCheckAnswer}>
-        Check Answer
-      </button>
-
+      {/* ...was type="submit", but using type="button" ensures the function runs without unwanted side effects like page reloads. */}
       <button
-        type="new-drink-button"
-        className="button newdrink"
-        onClick={onNewDrink}
+        type="button"
+        className="button submit check"
+        onClick={onCheckAnswer}
       >
-        New Drink
+        Check Answer
       </button>
     </div>
   );
